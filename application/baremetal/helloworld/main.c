@@ -91,6 +91,12 @@ void print_misa(void)
 #define RUN_LOOPS   5
 #endif
 
+int my_sum(int a, int b)
+{
+    return a + b;
+}
+
+int data[200];
 int main(void)
 {
     uint32_t rval, seed;
@@ -102,18 +108,22 @@ int main(void)
     clusterid = __get_cluster_id();
     misa = __RV_CSR_READ(CSR_MISA);
 
-    printf("Cluster %lu, Hart %lu, MISA: 0x%lx\r\n", clusterid, hartid, misa);
-    print_misa();
-
-    // Generate random value with seed
-    seed = (uint32_t)(__get_rv_cycle()  | __get_rv_instret() | __RV_CSR_READ(CSR_MCYCLE));
-    srand(seed);
-    rval = rand();
-    printf("Got rand integer %d using seed %d.\r\n", seed, rval);
-
-    for (unsigned long i = 0; i < RUN_LOOPS; i ++) {
-        printf("%lu: Hello World From Nuclei RISC-V Processor!\r\n", i);
+    for (int i = 1; i < 200; i++) {
+        data[i] = data[i-1] + i;
     }
+    // printf("Cluster %lu, Hart %lu, MISA: 0x%lx\r\n", clusterid, hartid, misa);
+    // print_misa();
+
+    // // Generate random value with seed
+    // seed = (uint32_t)(__get_rv_cycle()  | __get_rv_instret() | __RV_CSR_READ(CSR_MCYCLE));
+    // srand(seed);
+    // rval = rand();
+    volatile int a = my_sum(1 ,2);
+    while (1);
+    printf("Got rand integer %d using seed %d.\r\n", data[0], data[1]);
+    // for (unsigned long i = 0; i < RUN_LOOPS; i ++) {
+    //     printf("%lu: Hello World From Nuclei RISC-V Processor!\r\n", i);
+    // }
 
     return 0;
 }

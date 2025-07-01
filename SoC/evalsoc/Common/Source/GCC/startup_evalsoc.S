@@ -333,26 +333,7 @@ __init_common:
 
     .size __init_common, . - __init_common
 
-.globl _start_premain
-.type _start_premain, @function
-_start_premain:
-    /*
-     * Call vendor defined SystemInit to
-     * initialize the micro-controller system
-     * SystemInit will just be called by boot cpu
-     */
-    call SystemInit
 
-    /*
-     * Call C/C++ constructor start up code,
-     * __libc_fini is defined in linker script,
-     * so register_fini function will be called
-     * and will run atexit (__libc_fini_array)
-     * to do previous call atexit function
-     */
-    call __libc_init_array
-
-    .size _start_premain, . - _start_premain
 
 .type __skip_init, @function
 __skip_init:
@@ -366,7 +347,7 @@ __skip_init:
      * it will update mtvec according to eclic present or not
      * mtvec will set to exc_entry
      */
-    call _premain_init
+    // call _premain_init
 
     /* BPU cold bringup need time, so enable BPU before enter to main */
     li t0, MMISC_CTL_BPU
