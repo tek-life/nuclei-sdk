@@ -2,9 +2,9 @@ TARGET = helloworld
 
 NUCLEI_SDK_ROOT = ../../..
 
-SRCDIRS = . src
+SRCDIRS = . src drivers
 
-INCDIRS = . inc
+INCDIRS = . inc drivers
 
 COMMON_FLAGS := -O0
 
