@@ -1476,7 +1476,7 @@ void _premain_init(void)
         // TODO implement get_cpu_freq function to get real cpu clock freq in HZ or directly give the real cpu HZ
         // TODO you can directly give the correct cpu frequency here, if you know it without call get_cpu_freq function
         SystemCoreClock = get_cpu_freq();
-        uart_init(SOC_DEBUG_UART, 115200);
+        //uart_init(SOC_DEBUG_UART, 115200);
         /* Display banner after UART initialized */
         SystemBannerPrint();
         /* Initialize exception default handlers */

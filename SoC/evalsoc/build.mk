@@ -226,6 +226,7 @@ endif
 ##### Put your Source code Management configurations below #####
 
 INCDIRS += $(NUCLEI_SDK_SOC_COMMON)/Include
+INCDIRS += $(NUCLEI_SDK_SOC_COMMON)/Include/drivers
 
 C_SRCDIRS += $(NUCLEI_SDK_SOC_COMMON)/Source $(NUCLEI_SDK_SOC_COMMON)/Source/Drivers
 

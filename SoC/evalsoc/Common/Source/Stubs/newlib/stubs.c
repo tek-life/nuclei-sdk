@@ -21,9 +21,9 @@ extern int errno;
 int putchar(int dat)
 {
     if (dat == '\n') {
-        uart_write(SOC_DEBUG_UART, '\r');
+        //uart_write(SOC_DEBUG_UART, '\r');
     }
-    uart_write(SOC_DEBUG_UART, dat);
+    //uart_write(SOC_DEBUG_UART, dat);
     return dat;
 }
 
@@ -48,9 +48,9 @@ int getchar(void)
 {
     int dat;
 
-    dat = (int)uart_read(SOC_DEBUG_UART);
+    //dat = (int)uart_read(SOC_DEBUG_UART);
 #ifdef UART_AUTO_ECHO
-    uart_write(SOC_DEBUG_UART, (uint8_t)dat);
+    //uart_write(SOC_DEBUG_UART, (uint8_t)dat);
 #endif
     return dat;
 }

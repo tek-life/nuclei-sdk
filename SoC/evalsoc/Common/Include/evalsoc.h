@@ -570,19 +570,6 @@ extern volatile unsigned long CpuIRegionBase;
 #define SOC_SOFTINT_HANDLER         eclic_msip_handler
 
 /**
-  * @brief UART
-  */
-typedef struct {
-    __IOM uint32_t TXFIFO;
-    __IOM uint32_t RXFIFO;
-    __IOM uint32_t TXCTRL;
-    __IOM uint32_t RXCTRL;
-    __IOM uint32_t IE;
-    __IOM uint32_t IP;
-    __IOM uint32_t DIV;
-} UART_TypeDef;
-
-/**
   * @brief QSPI
   */
 typedef struct {
@@ -717,7 +704,7 @@ typedef struct {
 #endif
 
 /* Peripheral memory map */
-#define UART0_BASE              (EVALSOC_PERIPH_BASE + 0x13000)          /*!< (UART0) Base Address */
+//#define UART0_BASE              (EVALSOC_PERIPH_BASE + 0x13000)          /*!< (UART0) Base Address */
 #define QSPI0_BASE              (EVALSOC_PERIPH_BASE + 0x14000)          /*!< (QSPI0) Base Address */
 #define UART1_BASE              (EVALSOC_PERIPH_BASE + 0x23000)          /*!< (UART1) Base Address */
 #define QSPI1_BASE              (EVALSOC_PERIPH_BASE + 0x24000)          /*!< (QSPI1) Base Address */
@@ -751,10 +738,10 @@ typedef struct {
 // Misc
 
 // Only used by Nuclei Internally, please dont use it
-#define SIMULATION_EXIT(ret)    { __WMB(); UART0->RXFIFO = (ret);       \
-                                    while (UART0->TXFIFO & (1<<31));    \
-                                    UART0->TXFIFO = 4; }
-
+// #define SIMULATION_EXIT(ret)    { __WMB(); UART0->RXFIFO = (ret);       \
+//                                     while (UART0->TXFIFO & (1<<31));    \
+//                                     UART0->TXFIFO = 4; }
+#define SIMULATION_EXIT(ret) 
 extern uint32_t get_cpu_freq(void);
 extern void delay_1ms(uint32_t count);
 
