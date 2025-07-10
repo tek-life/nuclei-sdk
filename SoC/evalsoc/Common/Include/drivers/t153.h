@@ -3,6 +3,9 @@
 
 #define assert_param(expr) ((void)0)
 
+/**
+  * @brief Universal Asynchronous Receiver Transmitter (UART)
+  */
 typedef struct
 {
     __IO uint32_t DR_OR_DLL;                             /*!< when LCR_DLBA=0, this is Data Register(RBR/THR);
@@ -22,6 +25,23 @@ typedef struct
     __IO uint32_t ACR;                                   /*!< UART Auxiliary Control Register,                     Address offset: 0x24 */
 } UART_TypeDef;
 
+/**
+  * @brief Watch DOG (WDG)
+  */
+typedef struct
+{
+	__I  uint32_t CNT;                                   /*!< Watch Dog Count Register,                   Address offset: 0x00 */
+	__IO  uint32_t RSR;                                  /*!< Watch Dog Reset Register,                   Address offset: 0x04 */
+	__IO  uint32_t ISR;                                  /*!< Watch Dog Interrupt Status Register,        Address offset: 0x08 */
+    __IO uint32_t LOAD;                                  /*!< Watch Dog Load Register,                    Address offset: 0x0C */
+    __IO uint32_t CR;                                    /*!< Watch Dog Control Register,                 Address offset: 0x10 */
+    __IO uint32_t ICLR;                                  /*!< Watch Dog Interrupt Clear Register,         Address offset: 0x14 */
+    uint32_t RESERVED;                                   /*!< Reserved, Address offset: 0x18 */
+    __IO uint32_t EICR;                                  /*!< Watch Dog Early Interrupt Control Register, Address offset: 0x1C */
+    __IO uint32_t EICLR;                                 /*!< Watch Dog Early Interrupt Clear Register,   Address offset: 0x20 */
+    __IO uint32_t PRES;                                  /*!< Watch Dog Pre-Scaler Resiter,               Address offset: 0x24 */
+    __IO uint32_t EIVR;                                  /*!< Watch Dog Early Interrupt Value Register,   Address Offset: 0x28 */
+} WDG_TypeDef;
 
 /* enum definitions */
 #if 0
@@ -55,6 +75,7 @@ typedef enum {
   * @{
   */
 #define UART0_BASE                              (0x12100000)
+#define WDG_BASE                                (0x12200000)
 /** @} */ /* End of group Device_Peripheral_peripheralAddr */
 
 /* =========================================================================================================================== */
@@ -67,7 +88,7 @@ typedef enum {
   * @{
   */
 #define UART0                                   ((UART_TypeDef *) UART0_BASE)
-
+#define WDG                                     ((WDG_TypeDef *) WDG_BASE)
 /** @} */ /* End of group Device_Peripheral_declaration */
 
 
@@ -134,5 +155,42 @@ typedef enum {
 #define UART_ACR_RX_ENABLE                  ((uint32_t)0x00000002)        /*!< enable the data reception in SIR mode */
 #define UART_ACR_TX_ENABLE                  ((uint32_t)0x00000001)        /*!< enable the data transmission in SIR mode */
 
+
+/* =========================================================================================================================== */
+/* ================                   WDG                                                                    ================= */
+/* =========================================================================================================================== */
+/* ====================== Bit definition for WDG_CNT register  ====================== */
+#define WDG_CNT_VAL                         ((uint32_t)0xFFFFFFFF)        /*!< WDG Counter Value */
+
+/* ====================== Bit definition for WDG_RSR register  ====================== */
+#define WDG_RSR_VAL                         ((uint32_t)0xFFFFFFFF)        /*!< WDG Reset Value */
+
+/* ====================== Bit definition for WDG_ISR register  ====================== */
+#define WDG_ISR_ISR                         ((uint32_t)0x00000001)        /*!< WDG Interrupt Status */
+#define WDG_ISR_EISR                        ((uint32_t)0x00000002)        /*!< WDG Eraly Interrupt Status */
+
+/* ====================== Bit definition for WDG_Load register  ====================== */
+#define WDG_LOAD_VAL                        ((uint32_t)0xFFFFFFFF)        /*!< WDG Load Value */
+
+/* ====================== Bit definition for WDG_CR register  ====================== */
+#define WDG_CR_EN                           ((uint32_t)0x00000001)        /*!< WDG Work Enable */
+#define WDG_CR_RSTEN                        ((uint32_t)0x00000002)        /*!< WDG Reset Enable */
+#define WDG_CR_INTREN                       ((uint32_t)0x00000004)        /*!< WDG Interrupt Status */
+#define WDG_CR_DBGMODEEN                    ((uint32_t)0x00000020)        /*!< WDG Debug Mode Enable */
+
+/* ====================== Bit definition for WDG_ICLR register  ====================== */
+#define WDG_ICLR_INTRCLR                    ((uint32_t)0x00000001)        /*!< WDG Interrupt Clear */
+
+/* ====================== Bit definition for WDG_EICR register  ====================== */
+#define WDG_EICR_EINTREN                    ((uint32_t)0x00000001)        /*!< WDG Early Interrupt Enable */
+
+/* ====================== Bit definition for WDG_EICLR register  ====================== */
+#define WDG_EICLR_EINTRCLR                  ((uint32_t)0x00000001)        /*!< WDG Early Interrupt Clear */
+
+/* ====================== Bit definition for WDG_PRES register  ====================== */
+#define WDG_PRES_PRESCAL                    ((uint32_t)0x0000000F)        /*!< WDG pre-scal value */
+
+/* ====================== Bit definition for WDG_EIVR register  ====================== */
+#define WDG_EIVR_VAL                        ((uint32_t)0xFFFFFFFF)        /*!< WDG Early Interrupt Threshold value */
 
 #endif //_T153_H
