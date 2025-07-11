@@ -43,6 +43,25 @@ typedef struct
     __IO uint32_t EIVR;                                  /*!< Watch Dog Early Interrupt Value Register,   Address Offset: 0x28 */
 } WDG_TypeDef;
 
+/* =========================================================================================================================== */
+/* ================                                  TIM                                                      ================ */
+/* =========================================================================================================================== */
+/**
+  * @brief TIMER
+  */
+typedef struct
+{
+    __IO uint32_t ISR;                                   /*!< TIM status register,                                               Address offset: 0x00 */
+    __IO uint32_t PRES;                                  /*!< TIM prescaler,                                                     Address offset: 0x04 */
+    __IO uint32_t CR;                                    /*!< TIM control register,                                              Address offset: 0x08 */
+    __IO uint32_t CNTB;                                  /*!< TIM auto-reload register or End value of pulse detection register, Address offset: 0x0C */
+    __IO uint32_t CMPB;                                  /*!< TIM compare register,                                              Address offset: 0x10 */
+    __IO uint32_t CNTO;                                  /*!< TIM counter register(only read reg),                               Address offset: 0x14 */
+    __IO uint32_t FD;                                    /*!< TIM frequency detection count reg,                                 Address offset: 0x18 */
+    __IO uint32_t DCD;                                   /*!< TIM duty cycle detection count reg,                                Address offset: 0x1C */
+} TIM_TypeDef;
+
+
 /* enum definitions */
 #if 0
 typedef enum {
@@ -76,6 +95,7 @@ typedef enum {
   */
 #define UART0_BASE                              (0x12100000)
 #define WDG_BASE                                (0x12200000)
+#define TIM_BASE                                (0x12200600)
 /** @} */ /* End of group Device_Peripheral_peripheralAddr */
 
 /* =========================================================================================================================== */
@@ -89,6 +109,7 @@ typedef enum {
   */
 #define UART0                                   ((UART_TypeDef *) UART0_BASE)
 #define WDG                                     ((WDG_TypeDef *) WDG_BASE)
+#define TIM                                     ((TIM_TypeDef *) TIM_BASE)
 /** @} */ /* End of group Device_Peripheral_declaration */
 
 
@@ -192,5 +213,19 @@ typedef enum {
 
 /* ====================== Bit definition for WDG_EIVR register  ====================== */
 #define WDG_EIVR_VAL                        ((uint32_t)0xFFFFFFFF)        /*!< WDG Early Interrupt Threshold value */
+
+
+/* =========================================================================================================================== */
+/* ================                   TIM                                                                    ================= */
+/* =========================================================================================================================== */
+/* ====================== Bit definition for TIM_CR register  ====================== */
+#define TIM_CR_MOD                          ((uint32_t)0x00000003)        /*!< Counter MODE */
+#define TIM_CR_MOD_0                        ((uint32_t)0x00000001)        /*!< Bit 0 */
+#define TIM_CR_MOD_1                        ((uint32_t)0x00000001)        /*!< Bit 0 */
+#define TIM_CR_START                        ((uint32_t)0x00000004)        /*!< Counter enable */
+#define TIM_CR_IMM_LOAD                     ((uint32_t)0x00000008)        /*!< Immediate load */
+#define TIM_CR_INV                          ((uint32_t)0x00000010)        /*!< Complement invert output */
+#define TIM_CR_AUTO_RELOAD                  ((uint32_t)0x00000020)        /*!< Auto reload or One pulse mode */
+#define TIM_CR_DEBUG_MODE                   ((uint32_t)0x00000040)        /*!< Debug mode enable */
 
 #endif //_T153_H
