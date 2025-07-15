@@ -103,15 +103,15 @@ typedef enum IRQn {
     /* ToDo: add here your device specific external interrupt numbers. 19~1023 is reserved number for user. Maxmum interrupt supported
              could get from clicinfo.NUM_INTERRUPT. According the interrupt handlers defined in startup_Device.s
              eg.: Interrupt for Timer#1       eclic_tim1_handler   ->   TIM1_IRQn */
-    SOC_INT19_IRQn           = 19,                /*!< Device Interrupt */
-    SOC_INT20_IRQn           = 20,                /*!< Device Interrupt */
-    SOC_INT21_IRQn           = 21,                /*!< Device Interrupt */
-    SOC_INT22_IRQn           = 22,                /*!< Device Interrupt */
-    SOC_INT23_IRQn           = 23,                /*!< Device Interrupt */
-    SOC_INT24_IRQn           = 24,                /*!< Device Interrupt */
-    SOC_INT25_IRQn           = 25,                /*!< Device Interrupt */
-    SOC_INT26_IRQn           = 26,                /*!< Device Interrupt */
-    SOC_INT27_IRQn           = 27,                /*!< Device Interrupt */
+    Reserved17_IRQn          = 19,                /*!< Internal reserved */
+    SPI_IRQn                 = 20,                /*!< SPI Interrupt */
+    USB_IRQn                 = 21,                /*!< USB Interrupt */
+    GMAC_IRQn                = 22,                /*!< GMAC Interrupt */
+    WDT_IRQn                 = 23,                /*!< watchdog Interrupt */
+    TIM_IRQn                 = 24,                /*!< timer Interrupt */
+    GPIO_IRQn                = 25,                /*!< gpio Interrupt */
+    UART_IRQn                = 26,                /*!< uart Interrupt */
+    H2P_IRQn                 = 27,                /*!< H2P Interrupt */
     SOC_INT28_IRQn           = 28,                /*!< Device Interrupt */
     SOC_INT29_IRQn           = 29,                /*!< Device Interrupt */
     SOC_INT30_IRQn           = 30,                /*!< Device Interrupt */
@@ -336,7 +336,7 @@ extern volatile unsigned long CpuIRegionBase;
 #else
 #define __ECLIC_PRESENT             0
 #endif
-#define __ECLIC_BASEADDR            (__IREGION_BASEADDR + IREGION_ECLIC_OFS)
+#define __ECLIC_BASEADDR            0x42000000//(__IREGION_BASEADDR + IREGION_ECLIC_OFS) //0x42000000
 
 // PLIC Configuration
 // To enable PLIC, just define macro CFG_HAS_PLIC/CFG_IRQ_NUM in cpufeature.h
