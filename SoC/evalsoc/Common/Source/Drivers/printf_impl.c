@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <unistd.h>
-#include "t690_uart.h"
+#include "nuclei_sdk_soc.h"
 
 #define UART_BASE_ADDRESS ((uint32_t)0x12100000)
 UART_TypeDef *DEFAULT_UART = (UART_TypeDef *)UART_BASE_ADDRESS;

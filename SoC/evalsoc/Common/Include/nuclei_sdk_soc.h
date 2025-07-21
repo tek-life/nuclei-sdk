@@ -8,6 +8,9 @@ extern "C" {
 
 #include "evalsoc.h"
 #include "evalsoc_uart.h"
+#include "evalsoc_clk.h"
+#include "evalsoc_wdg.h"
+#include "evalsoc_tim.h"
 
 #ifdef __cplusplus
 }

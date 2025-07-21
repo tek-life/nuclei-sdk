@@ -91,9 +91,9 @@ void simulation_exit(int status)
     // workaround for fix cycle model exit with some message not print
     for (int i = 0; i < 10; i ++) {
         // print '\0' instead of '\r' for qemu simulation in ide
-        uart_write(UART0, '\0');
+        //uart_write(UART0, '\0');
     }
-    uart_write(UART0, '\n');
+   // uart_write(UART0, '\n');
     // pass exit status via rxfifo register
     SIMULATION_EXIT(status);
 #if defined(SIMULATION_MODE)
