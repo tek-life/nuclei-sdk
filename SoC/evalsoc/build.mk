@@ -227,8 +227,10 @@ endif
 
 INCDIRS += $(NUCLEI_SDK_SOC_COMMON)/Include
 INCDIRS += $(NUCLEI_SDK_SOC_COMMON)/Include/drivers
+INCDIRS += $(NUCLEI_SDK_SOC_COMMON)/Source/Drivers/dwc3/Include
 
 C_SRCDIRS += $(NUCLEI_SDK_SOC_COMMON)/Source $(NUCLEI_SDK_SOC_COMMON)/Source/Drivers
+C_SRCDIRS += $(NUCLEI_SDK_SOC_COMMON)/Source/Drivers/dwc3
 
 # If semihosting is enabled, no stub function is needed
 ifeq ($(SEMIHOST),)

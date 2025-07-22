@@ -32,6 +32,13 @@
 extern "C" {
 #endif
 
+typedef unsigned char u8; 
+typedef unsigned int u32; 
+typedef unsigned char __u8; 
+typedef unsigned short __u16; 
+typedef unsigned int __u32; 
+typedef __u16 __le16;
+typedef __u32 __le32;
 // NOTE: this cpufeature.h header file is introduced in Nuclei SDK 0.6.0
 #include "cpufeature.h"
 
