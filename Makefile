@@ -1,4 +1,4 @@
-PROGRAM :=baremetal/helloworld
+PROGRAM :=application/baremetal/T153/helloworld
 
 PARALLEL ?=
 
@@ -57,7 +57,7 @@ $(CLEAN_DIRS_RULES):
 
 $(BUILD_DIRS_RULES):
 	make -C $(patsubst __BUILD__%, %, $@) clean
-	make -C $(patsubst __BUILD__%, %, $@) $(PARALLEL) all
+	@make -C $(patsubst __BUILD__%, %, $@) $(PARALLEL) all
 
 $(VALID_SDK_RULES):
 	make -C $(VALID_PROGRAM) $@

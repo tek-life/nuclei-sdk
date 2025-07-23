@@ -17,12 +17,14 @@
 
 #ifndef __LINUX_USB_GADGET_H
 #define __LINUX_USB_GADGET_H
-
+#if 0
 #include <errno.h>
 #include <usb.h>
 #include <linux/compat.h>
 #include <linux/list.h>
-
+#endif
+#include "errno.h"
+#include "list.h"
 struct usb_ep;
 
 /**
@@ -81,6 +83,11 @@ struct usb_ep;
  * NOTE:  this is analagous to 'struct urb' on the host side, except that
  * it's thinner and promotes more pre-allocation.
  */
+typedef unsigned int dma_addr_t;
+
+
+typedef int gfp_t;
+struct device {};
 
 struct usb_request {
 	void			*buf;
@@ -543,12 +550,12 @@ struct usb_gadget {
 
 static inline void set_gadget_data(struct usb_gadget *gadget, void *data)
 {
-	gadget->dev.driver_data = data;
+	//gadget->dev.driver_data = data;
 }
 
 static inline void *get_gadget_data(struct usb_gadget *gadget)
 {
-	return gadget->dev.driver_data;
+	//return gadget->dev.driver_data;
 }
 
 static inline struct usb_gadget *dev_to_usb_gadget(struct device *dev)
@@ -963,12 +970,7 @@ extern void usb_ep_autoconfig_reset(struct usb_gadget *);
 
 extern int usb_gadget_handle_interrupts(int index);
 
-#if CONFIG_IS_ENABLED(DM_USB_GADGET)
-int usb_gadget_initialize(int index);
-int usb_gadget_release(int index);
-int dm_usb_gadget_handle_interrupts(struct udevice *dev);
-#else
-#include <usb.h>
+#include "usb.h"
 static inline int usb_gadget_initialize(int index)
 {
 	return board_usb_init(index, USB_INIT_DEVICE);
@@ -978,6 +980,5 @@ static inline int usb_gadget_release(int index)
 {
 	return board_usb_cleanup(index, USB_INIT_DEVICE);
 }
-#endif
 
 #endif	/* __LINUX_USB_GADGET_H */

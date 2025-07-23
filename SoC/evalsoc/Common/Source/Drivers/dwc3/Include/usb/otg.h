@@ -10,7 +10,11 @@
 #ifndef __LINUX_USB_OTG_H
 #define __LINUX_USB_OTG_H
 
+#if 0
 #include <dm/ofnode.h>
+#endif
+
+typedef void * ofnode;
 
 enum usb_dr_mode {
 	USB_DR_MODE_UNKNOWN,

@@ -10,28 +10,20 @@
 #ifndef __LINUX_USB_PHY_H
 #define __LINUX_USB_PHY_H
 
+#if 0
 #include <dm/ofnode.h>
-
+#endif
 enum usb_phy_interface {
 	USBPHY_INTERFACE_MODE_UNKNOWN,
 	USBPHY_INTERFACE_MODE_UTMI,
 	USBPHY_INTERFACE_MODE_UTMIW,
 };
 
-#if CONFIG_IS_ENABLED(OF_LIVE) && CONFIG_IS_ENABLED(DM_USB)
-/**
- * usb_get_phy_mode - Get phy mode for given device_node
- * @np:	Pointer to the given device_node
- *
- * The function gets phy interface string from property 'phy_type',
- * and returns the corresponding enum usb_phy_interface
- */
-enum usb_phy_interface usb_get_phy_mode(ofnode node);
-#else
+typedef void * ofnode;
+
 static inline enum usb_phy_interface usb_get_phy_mode(ofnode node)
 {
 	return USBPHY_INTERFACE_MODE_UNKNOWN;
 }
-#endif
 
 #endif /* __LINUX_USB_PHY_H */

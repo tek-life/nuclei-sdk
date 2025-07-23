@@ -34,11 +34,59 @@ extern "C" {
 
 typedef unsigned char u8; 
 typedef unsigned int u32; 
+typedef unsigned short u16; 
+typedef unsigned long ulong;
 typedef unsigned char __u8; 
 typedef unsigned short __u16; 
 typedef unsigned int __u32; 
 typedef __u16 __le16;
 typedef __u32 __le32;
+
+#define ARCH_DMA_MINALIGN 32 
+
+static inline u16 __get_unaligned_le16(const u8 *p)
+{
+		return p[0] | p[1] << 8;
+}
+
+static inline u32 __get_unaligned_le32(const u8 *p)
+{
+		return p[0] | p[1] << 8 | p[2] << 16 | p[3] << 24;
+}
+
+static inline void __put_unaligned_le16(u16 val, u8 *p)
+{
+		*p++ = val;
+		*p++ = val >> 8;
+}
+
+static inline void __put_unaligned_le32(u32 val, u8 *p)
+{
+		__put_unaligned_le16(val >> 16, p + 2);
+		__put_unaligned_le16(val, p);
+}
+
+static inline u16 get_unaligned_le16(const void *p)
+{
+		return __get_unaligned_le16((const u8 *)p);
+}
+
+static inline u32 get_unaligned_le32(const void *p)
+{
+		return __get_unaligned_le32((const u8 *)p);
+}
+
+extern void __bad_unaligned_access_size(void);
+#define __force
+#define __get_unaligned_le(ptr) ((__force typeof(*(ptr)))({			\
+	__builtin_choose_expr(sizeof(*(ptr)) == 1, *(ptr),			\
+	__builtin_choose_expr(sizeof(*(ptr)) == 2, get_unaligned_le16((ptr)),	\
+	__builtin_choose_expr(sizeof(*(ptr)) == 4, get_unaligned_le32((ptr)),	\
+	__bad_unaligned_access_size())));					\
+	}))
+
+#define get_unaligned	__get_unaligned_le
+
 // NOTE: this cpufeature.h header file is introduced in Nuclei SDK 0.6.0
 #include "cpufeature.h"
 

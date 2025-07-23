@@ -26,6 +26,8 @@
 #include <linux/usb/ch9.h>
 #include <linux/usb/gadget.h>
 #endif
+#include <stdio.h>
+#include "dwc3-uboot.h"
 #include "generic-phy.h"
 #include "usb/ch9.h"
 #include "usb/gadget.h"
@@ -37,7 +39,8 @@
 #if 0
 #include "rockusb.h"
 #endif
-DECLARE_GLOBAL_DATA_PTR;
+//DECLARE_GLOBAL_DATA_PTR;
+#define pr_err printf
 
 static LIST_HEAD(dwc3_list);
 /* -------------------------------------------------------------------------- */
@@ -61,7 +64,7 @@ static void dwc3_set_mode(struct dwc3 *dwc, u32 mode)
 	reg |= DWC3_GCTL_PRTCAPDIR(mode);
 	dwc3_writel(dwc->regs, DWC3_GCTL, reg);
 }
-
+#define mdelay(x)
 /**
  * dwc3_core_soft_reset - Issues core soft reset and PHY reset
  * @dwc: pointer to our context structure
@@ -115,9 +118,10 @@ static int dwc3_core_soft_reset(struct dwc3 *dwc)
 static void dwc3_free_one_event_buffer(struct dwc3 *dwc,
 		struct dwc3_event_buffer *evt)
 {
-	dma_free_coherent(evt->buf);
+	//dma_free_coherent(evt->buf);
 }
-
+#define devm_kzalloc(x, y, z)	malloc(y)
+#define dma_alloc_coherent(x, y) malloc(x)
 /**
  * dwc3_alloc_one_event_buffer - Allocates one event buffer structure
  * @dwc: Pointer to our controller context structure
@@ -143,7 +147,7 @@ static struct dwc3_event_buffer *dwc3_alloc_one_event_buffer(struct dwc3 *dwc,
 	if (!evt->buf)
 		return ERR_PTR(-ENOMEM);
 
-	dwc3_flush_cache((uintptr_t)evt->buf, evt->length);
+	//dwc3_flush_cache((uintptr_t)evt->buf, evt->length);
 
 	return evt;
 }
@@ -897,12 +901,8 @@ void dwc3_uboot_handle_interrupt(int index)
 	}
 }
 
-MODULE_ALIAS("platform:dwc3");
-MODULE_AUTHOR("Felipe Balbi <balbi@ti.com>");
-MODULE_LICENSE("GPL v2");
-MODULE_DESCRIPTION("DesignWare USB3 DRD Controller Driver");
 
-#if CONFIG_IS_ENABLED(PHY) && CONFIG_IS_ENABLED(DM_USB)
+//#if CONFIG_IS_ENABLED(PHY) && CONFIG_IS_ENABLED(DM_USB)
 int dwc3_setup_phy(struct udevice *dev, struct phy **array, int *num_phys)
 {
 	int i, ret, count;
@@ -985,9 +985,9 @@ int dwc3_shutdown_phy(struct udevice *dev, struct phy *usb_phys, int num_phys)
 
 	return 0;
 }
-#endif
+//#endif
 
-#if CONFIG_IS_ENABLED(DM_USB)
+//#if CONFIG_IS_ENABLED(DM_USB)
 void dwc3_of_parse(struct dwc3 *dwc)
 {
 	const u8 *tmp;
@@ -1109,4 +1109,4 @@ void dwc3_remove(struct dwc3 *dwc)
 	dwc3_core_exit(dwc);
 	kfree(dwc->mem);
 }
-#endif
+//#endif

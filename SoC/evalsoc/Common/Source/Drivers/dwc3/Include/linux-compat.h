@@ -13,11 +13,11 @@
 #define __DWC3_LINUX_COMPAT__
 #if 0
 #define dev_WARN(dev, format, arg...)	debug(format, ##arg)
-#endif
 static inline size_t strlcat(char *dest, const char *src, size_t n)
 {
 	strcat(dest, src);
 	return strlen(dest) + strlen(src);
 }
+#endif
 
 #endif

@@ -391,7 +391,8 @@
 /* Structures */
 
 struct dwc3_trb;
-
+typedef unsigned int dma_addr_t;
+typedef void * spinlock_t;
 /**
  * struct dwc3_event_buffer - Software event buffer representation
  * @buf: _THE_ buffer
@@ -625,6 +626,7 @@ struct dwc3_request {
 	unsigned		queued:1;
 };
 
+#define __le64 __le32
 /*
  * struct dwc3_scratchpad_array - hibernation scratchpad array
  * (format defined by hw)
@@ -633,6 +635,8 @@ struct dwc3_scratchpad_array {
 	__le64	dma_adr[DWC3_MAX_HIBER_SCRATCHBUFS];
 };
 
+struct resource {};
+#define __iomem
 /**
  * struct dwc3 - representation of our controller
  * @ctrl_req: usb control request which is used for ep0
@@ -734,11 +738,7 @@ struct dwc3 {
 	/* device lock */
 	spinlock_t		lock;
 
-#if defined(__UBOOT__) && CONFIG_IS_ENABLED(DM_USB)
 	struct udevice		*dev;
-#else
-	struct device		*dev;
-#endif
 
 	struct platform_device	*xhci;
 	struct resource		xhci_resources[DWC3_XHCI_RESOURCES_NUM];
@@ -784,6 +784,7 @@ struct dwc3 {
 #define DWC3_REVISION_260A	0x5533260a
 #define DWC3_REVISION_270A	0x5533270a
 #define DWC3_REVISION_280A	0x5533280a
+#define u64 			u32
 
 	enum dwc3_ep0_next	ep0_next_event;
 	enum dwc3_ep0_state	ep0state;

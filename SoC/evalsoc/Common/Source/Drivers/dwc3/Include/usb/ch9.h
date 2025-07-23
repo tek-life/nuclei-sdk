@@ -388,7 +388,7 @@ struct usb_generic_descriptor {
 	__u8  bLength;
 	__u8  bDescriptorType;
 };
-
+//#define __packed __attribute__((packed)) 
 struct __packed usb_class_hid_descriptor {
 	u8 bLength;
 	u8 bDescriptorType;
@@ -406,7 +406,7 @@ struct __packed usb_class_report_descriptor {
 	u16 wLength;
 	u8 bData[0];
 };
-
+//#undef __packed
 /*
  * Endpoints
  */
