@@ -3,16 +3,18 @@
 #
 #!< Nuclei SDK Tools Root
 COMPILE_PREFIX ?= riscv64-unknown-elf-
-NUCLEI_SDK_TOOL_ROOT ?= $(NUCLEI_SDK_ROOT)/prebuilt_tools
+#NUCLEI_SDK_TOOL_ROOT ?= $(NUCLEI_SDK_ROOT)/prebuilt_tools
+NUCLEI_SDK_TOOL_ROOT ?= $(NUCLEI_SDK_ROOT)/
 NUCLEI_RISCV_GCC_ROOT ?= $(NUCLEI_SDK_TOOL_ROOT)/gcc
 NUCLEI_OPENOCD_ROOT ?= $(NUCLEI_SDK_TOOL_ROOT)/openocd
 
 NUCLEI_SDK_TOOL_ROOT_EXIST = 0
 ifneq ($(wildcard $(NUCLEI_RISCV_GCC_ROOT)),)
-ifneq ($(wildcard $(NUCLEI_OPENOCD_ROOT)),)
+#ifneq ($(wildcard $(NUCLEI_OPENOCD_ROOT)),)
 NUCLEI_SDK_TOOL_ROOT_EXIST = 1
+#endif
 endif
-endif
+${info xxx NUCLEI_SDK_TOOL_ROOT: $(NUCLEI_SDK_TOOL_ROOT)}
 
 ifeq ($(NUCLEI_SDK_TOOL_ROOT_EXIST),1)
 CC      := $(abspath $(NUCLEI_RISCV_GCC_ROOT)/bin/$(COMPILE_PREFIX)gcc)
