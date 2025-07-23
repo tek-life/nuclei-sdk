@@ -36,6 +36,58 @@
 #include "io.h"
 
 #include "linux-compat.h"
+#include <stdlib.h>
+#include <malloc.h>
+
+#define ERR_PTR(err)    ((void *)((long)(err)))
+#define PTR_ERR(ptr)    ((long)(ptr))
+#define IS_ERR(ptr)     ((unsigned long)(ptr) > (unsigned long)(-1000L))
+
+#define dev_err(dev, format, ...) printf(format, ##__VA_ARGS__)
+#define dev_dbg(dev, format, ...) printf(format, ##__VA_ARGS__)
+#define dev_vdbg(dev, format, ...) printf(format, ##__VA_ARGS__)
+
+#define lower_32_bits(n) ((u32)(n))
+#define upper_32_bits(n) ((u32)(((n) >> 16) >> 16))
+
+#define kmalloc_array(n, size, flags) malloc((n) * (size))
+#define GFP_KERNEL 0
+
+#define DMA_BIDIRECTIONAL 0
+#define dma_map_single(dev, addr, size, dir) ((dma_addr_t)(addr))
+#define dma_unmap_single(dev, addr, size, dir)
+#define dma_mapping_error(dev, dma_addr) (0)
+
+#define kfree(ptr) free(ptr)
+
+#define CONFIG_IS_ENABLED(option) 0
+#define ARCH_ROCKCHIP 0
+
+#define WARN(condition, format, ...) do { if (condition) printf(format, ##__VA_ARGS__); } while (0)
+
+#define gd 0
+
+#define PTR_ALIGN(p, a) ((typeof(p))(((unsigned long)(p) + (a) - 1) & ~((a) - 1)))
+
+#define get_timer(a) 0
+
+#define rkusb_force_usb2_enabled() (0)
+
+#define fdt_node_offset_by_compatible(fdt, node, compat) (0)
+
+#define debug(format, ...) printf(format, ##__VA_ARGS__)
+
+#define fdtdec_get_int(fdt, node, prop, defval) (defval)
+
+#define IS_ENABLED(option) 0
+
+#define pr_info(format, ...) printf(format, ##__VA_ARGS__)
+
+#define dev_read_prop(dev, prop, val) (0)
+#define dev_count_phandle_with_args(dev, list_name, cell_name) (0)
+#define dev_read_bool(dev, prop) (0)
+#define dev_read_u8_array_ptr(dev, prop, num) (0)
+
 #if 0
 #include "rockusb.h"
 #endif
@@ -923,8 +975,8 @@ int dwc3_setup_phy(struct udevice *dev, struct phy **array, int *num_phys)
 	for (i = 0; i < count; i++) {
 		ret = generic_phy_get_by_index(dev, i, &usb_phys[i]);
 		if (ret && ret != -ENOENT) {
-			pr_err("Failed to get USB PHY%d for %s\n",
-			       i, dev->name);
+				// dev_err(dev, "failed to get phy #%d for %s\n",
+					// i, dev->name);
 			return ret;
 		}
 	}
@@ -932,8 +984,8 @@ int dwc3_setup_phy(struct udevice *dev, struct phy **array, int *num_phys)
 	for (i = 0; i < count; i++) {
 		ret = generic_phy_init(&usb_phys[i]);
 		if (ret) {
-			pr_err("Can't init USB PHY%d for %s\n",
-			       i, dev->name);
+			// pr_err("Can't init USB PHY%d for %s\n",
+			       // i, dev->name);
 			goto phys_init_err;
 		}
 	}
@@ -941,8 +993,8 @@ int dwc3_setup_phy(struct udevice *dev, struct phy **array, int *num_phys)
 	for (i = 0; i < count; i++) {
 		ret = generic_phy_power_on(&usb_phys[i]);
 		if (ret) {
-			pr_err("Can't power USB PHY%d for %s\n",
-			       i, dev->name);
+			// pr_err("Can't power USB PHY%d for %s\n",
+			       // i, dev->name);
 			goto phys_poweron_err;
 		}
 	}
@@ -978,8 +1030,8 @@ int dwc3_shutdown_phy(struct udevice *dev, struct phy *usb_phys, int num_phys)
 		ret = generic_phy_power_off(&usb_phys[i]);
 		ret |= generic_phy_exit(&usb_phys[i]);
 		if (ret) {
-			pr_err("Can't shutdown USB PHY%d for %s\n",
-			       i, dev->name);
+			// pr_err("Can't shutdown USB PHY%d for %s\n",
+			       // i, dev->name);
 		}
 	}
 
@@ -991,7 +1043,7 @@ int dwc3_shutdown_phy(struct udevice *dev, struct phy *usb_phys, int num_phys)
 void dwc3_of_parse(struct dwc3 *dwc)
 {
 	const u8 *tmp;
-	struct udevice *dev = dwc->dev;
+	// struct udevice *dev = dwc->dev;
 	u8 lpm_nyet_threshold;
 	u8 tx_de_emphasis;
 	u8 hird_threshold;
@@ -1008,7 +1060,7 @@ void dwc3_of_parse(struct dwc3 *dwc)
 	 */
 	hird_threshold = 12;
 
-	dwc->hsphy_mode = usb_get_phy_mode(dev->node);
+	// dwc->hsphy_mode = usb_get_phy_mode(dev->node);
 
 	dwc->has_lpm_erratum = dev_read_bool(dev,
 				"snps,has-lpm-erratum");
@@ -1067,19 +1119,16 @@ int dwc3_init(struct dwc3 *dwc)
 
 	ret = dwc3_alloc_event_buffers(dwc, DWC3_EVENT_BUFFERS_SIZE);
 	if (ret) {
-		dev_err(dwc->dev, "failed to allocate event buffers\n");
 		return -ENOMEM;
 	}
 
 	ret = dwc3_core_init(dwc);
 	if (ret) {
-		dev_err(dev, "failed to initialize core\n");
 		goto core_fail;
 	}
 
 	ret = dwc3_event_buffers_setup(dwc);
 	if (ret) {
-		dev_err(dwc->dev, "failed to setup event buffers\n");
 		goto event_fail;
 	}
 
@@ -1107,6 +1156,6 @@ void dwc3_remove(struct dwc3 *dwc)
 	dwc3_event_buffers_cleanup(dwc);
 	dwc3_free_event_buffers(dwc);
 	dwc3_core_exit(dwc);
-	kfree(dwc->mem);
+	// kfree(dwc->mem);
 }
 //#endif
